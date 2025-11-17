@@ -1,6 +1,7 @@
 import './TechnologyCard.css';
+import TechnologyNotes from './TechnologyNotes';
 
-function TechnologyCard({ id, title, description, status, onStatusChange }) {
+function TechnologyCard({ id, title, description, status, notes, onStatusChange, onNotesChange }) {
   const statusCycle = {
     'not-started': 'in-progress',
     'in-progress': 'completed',
@@ -8,7 +9,7 @@ function TechnologyCard({ id, title, description, status, onStatusChange }) {
   };
 
   const handleStatusChange = () => {
-    const newStatus = statusCycle[status];
+    const newStatus = statusCycle[status] || 'not-started';
     onStatusChange(id, newStatus);
   };
 
@@ -18,25 +19,33 @@ function TechnologyCard({ id, title, description, status, onStatusChange }) {
       'in-progress': 'В процессе',
       'not-started': 'Не начато'
     };
-    return statusMap[currentStatus] || 'Неизвестно';
+    return statusMap[currentStatus] || 'Не начато';
+  };
+
+  const handleNotesChange = (newNotes) => {
+    onNotesChange(id, newNotes);
   };
 
   return (
-    <div className="technology-card" data-status={status}>
-      <div 
-        className="tech-status" 
-        onClick={handleStatusChange}
-        role="button"
-        tabIndex={0}
-        onKeyPress={(e) => e.key === 'Enter' && handleStatusChange()}
-      >
-        <p>{getStatusText(status)}</p>
-        <span className="click-hint">✎ Нажмите для изменения</span>
+    <div className={`technology-card status-${status}`}>
+      <div className="card-header">
+        <h3 className="card-title">{title}</h3>
+        <button 
+          className={`status-badge status-${status}`}
+          onClick={handleStatusChange}
+          aria-label={`Изменить статус ${title}`}
+        >
+          <span className="status-text">{getStatusText(status)}</span>
+          <span className="status-hint">✎ Нажмите для изменения</span>
+        </button>
       </div>
-      <div className="tech-info">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
+      
+      <p className="card-description">{description}</p>
+      
+      <TechnologyNotes 
+        notes={notes || ''}
+        onNotesChange={handleNotesChange}
+      />
     </div>
   );
 }
