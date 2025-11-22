@@ -739,49 +739,163 @@ select.form-control {
 
 
 
-.app-footer {
-  text-align: center;
-  padding: var(--space-24);
-  border-top: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
+.progress-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  margin: var(--space-16) 0;
+}
+
+.progress-label {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  min-width: 140px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: var(--space-8);
+  background: var(--color-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-teal-300));
+  border-radius: var(--radius-full);
+  transition: width 0.5s var(--ease-standard);
+  box-shadow: 0 0 10px rgba(var(--color-teal-500-rgb), 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  .progress-fill {
+    box-shadow: 0 0 10px rgba(var(--color-teal-300-rgb), 0.3);
+  }
+}
+
+[data-color-scheme="dark"] .progress-fill {
+  box-shadow: 0 0 10px rgba(var(--color-teal-300-rgb), 0.3);
+}
+
+.progress-bar.animated .progress-fill {
+  animation: progressAnimation 2s ease-in-out infinite;
+}
+
+@keyframes progressAnimation {
+  0% {
+    box-shadow: 0 0 5px rgba(var(--color-teal-500-rgb), 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(var(--color-teal-500-rgb), 0.5);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(var(--color-teal-500-rgb), 0.3);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  @keyframes progressAnimation {
+    0% {
+      box-shadow: 0 0 5px rgba(var(--color-teal-300-rgb), 0.3);
+    }
+    50% {
+      box-shadow: 0 0 15px rgba(var(--color-teal-300-rgb), 0.5);
+    }
+    100% {
+      box-shadow: 0 0 5px rgba(var(--color-teal-300-rgb), 0.3);
+    }
+  }
+}
+
+[data-color-scheme="dark"] {
+  @keyframes progressAnimation {
+    0% {
+      box-shadow: 0 0 5px rgba(var(--color-teal-300-rgb), 0.3);
+    }
+    50% {
+      box-shadow: 0 0 15px rgba(var(--color-teal-300-rgb), 0.5);
+    }
+    100% {
+      box-shadow: 0 0 5px rgba(var(--color-teal-300-rgb), 0.3);
+    }
+  }
+}
+
+.progress-percentage-btn {
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: var(--space-4) var(--space-12);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-size-sm);
-  background: var(--color-surface);
-  margin-top: calc(var(--space-32) + var(--space-16));
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  min-width: 60px;
 }
 
-.app-footer p {
-  margin: 0;
+.progress-percentage-btn:hover {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  transform: scale(1.05);
 }
 
-/* Progress Section */
-.progress-section {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--space-24);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--color-card-border);
+.progress-percentage-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
-/* Responsive Adjustments */
+.progress-details {
+  text-align: center;
+}
+
+.progress-details p {
+  font-size: var(--font-size-lg);
+  margin: var(--space-12) 0;
+}
+
+.progress-details p strong {
+  color: var(--color-primary);
+  font-size: var(--font-size-2xl);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .progress-section {
-    padding: var(--space-16);
+  .progress-bar-wrapper {
+    gap: var(--space-8);
   }
 
-  .app-footer {
-    padding: var(--space-16);
-    margin-top: var(--space-32);
+  .progress-label {
+    min-width: 100px;
+    font-size: var(--font-size-sm);
+  }
+
+  .progress-percentage-btn {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--font-size-xs);
+    min-width: 50px;
   }
 }
 
 @media (max-width: 480px) {
-  .progress-section {
-    padding: var(--space-12);
+  .progress-bar-wrapper {
+    flex-direction: column;
+    gap: var(--space-8);
   }
 
-  .app-footer {
-    padding: var(--space-12);
-    margin-top: var(--space-24);
-    font-size: var(--font-size-xs);
+  .progress-label {
+    align-self: flex-start;
+    min-width: auto;
+  }
+
+  .progress-bar {
+    width: 100%;
+  }
+
+  .progress-percentage-btn {
+    align-self: flex-end;
   }
 }
